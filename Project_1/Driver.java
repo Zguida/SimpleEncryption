@@ -8,13 +8,14 @@ public class Driver {
             System.exit(1);
         }
 
+        //Input variable
         char cipher_type = args[0].charAt(0);
         char operation_mode = args[4].charAt(0);
-        File plain_text_file = new File("./" + args[1]); //ASCII formatted
-        File output_file = new File("./" + args[2]);
-        File key_file = new File(args[3]);
+        File plain_text_file = new File("./Project_1/" + args[1]); //ASCII formatted
+        File output_file = new File("./Project_1/" + args[2]);
+        File key_file = new File("./Project_1/" + args[3]);
 
-       //Input Verifiers
+        //Input Verifiers 
         if (cipher_type != 'S' && cipher_type != 'B') {
             System.err.println("Cipher Type Invalid");
             System.exit(1);
@@ -32,5 +33,10 @@ public class Driver {
             System.exit(1);
         }
 
+        //Fileformatter test
+        Fileformatter test = new Fileformatter(plain_text_file);
+
+        test.add_pad();
+        
     }
 }
