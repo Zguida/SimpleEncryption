@@ -18,7 +18,7 @@ public class WriteOutputFile {
 
     private void write_file(){
         try {
-            Files.write(to_write_path, content.getBytes());
+            Files.write(to_write_path, content.getBytes(java.nio.charset.StandardCharsets.ISO_8859_1));
         } catch (IOException e) {
             System.out.println("No Input Found");
             e.printStackTrace();

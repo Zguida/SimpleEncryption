@@ -21,25 +21,25 @@ public class BlockEncrypt {
         return blocks;
     }
 
-    private int[][] xor_blocks(){
+    private byte[][] xor_blocks(){
         String[] blocks = this.split_into_blocks();
-        int[][] encrypted_blocks = new int[blocks.length][16];
+        byte[][] encrypted_blocks = new byte[blocks.length][16];
         int encrypted_blocks_index = 0;
         for (String block : blocks){
             for(int i = 0; i < 16; i++){
-                encrypted_blocks[encrypted_blocks_index][i] = (int)((block.charAt(i)) ^ (key.charAt(i)));
+                encrypted_blocks[encrypted_blocks_index][i] = (byte)((block.charAt(i)) ^ (key.charAt(i)));
             }
             encrypted_blocks_index++;
         }
         return encrypted_blocks;
     }
 
-    private int[][] swap_xor_indexes(){
-        int[][] encrypted_blocks = this.xor_blocks();
-        int[][] swapped_blocks = new int[encrypted_blocks.length][16];
+    private byte[][] swap_xor_indexes(){
+        byte[][] encrypted_blocks = this.xor_blocks();
+        byte[][] swapped_blocks = new byte[encrypted_blocks.length][16];
         int swapped_blocks_index = 0;
 
-        for (int[] block : encrypted_blocks){
+        for (byte[] block : encrypted_blocks){
             int key_index = 0;
             int block_start = 0;
             int block_end = block.length - 1;
@@ -50,7 +50,7 @@ public class BlockEncrypt {
                     block_start++;
                 }
                 else{
-                    int save = block[block_start];
+                    byte save = block[block_start];
                     block[block_start] = block[block_end];
                     block[block_end] = save;
                     block_end--;
@@ -65,14 +65,12 @@ public class BlockEncrypt {
     }
 
     public String encrypt(){
-        int[][] final_encryption = this.swap_xor_indexes();
+        byte[][] final_encryption = this.swap_xor_indexes();
         StringBuilder concat_blocks = new StringBuilder();
         String test = "";
-        for (int[] block : final_encryption) {
-            for (int cast: block){
-                concat_blocks.append((char) cast);
-            }
-           
+        for (byte[] block : final_encryption) {
+            String str = new String(block, java.nio.charset.StandardCharsets.ISO_8859_1);
+            concat_blocks.append(str);
         }
         return concat_blocks.toString();
     }
