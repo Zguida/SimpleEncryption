@@ -14,29 +14,25 @@ public class Driver {
         File plain_text_file = new File("./Project_1/" + args[1]); //ASCII formatted
         File output_file = new File("./Project_1/" + args[2]);
         File key_file = new File("./Project_1/" + args[3]);
+        //for use in input_verify
+        File[] file_index = new File[3];
+        file_index[0] = plain_text_file;
+        file_index[1] = key_file;
+        file_index[2] = output_file;
+        VerifyInput input_verify = new VerifyInput(args, file_index);
 
-        //Input Verifiers 
-        if (cipher_type != 'S' && cipher_type != 'B') {
-            System.err.println("Cipher Type Invalid");
-            System.exit(1);
-        } else if (!plain_text_file.exists()) {
-            System.err.println("Plain Text File Does Not Exist.");
-            System.exit(1);
-        } else if (output_file.exists()) {
-            System.out.println("No output file defined. Creating File...");
-            output_file = new File("./ouput.txt");
-        } else if (!key_file.exists()) {
-            System.err.println("Key File Does Not Exist");
-            System.exit(1);
-        } else if (operation_mode != 'E' && operation_mode != 'D') {
-            System.err.println("Operation Mode Invalid");
-            System.exit(1);
-        }
+
 
         //Fileformatter test
-        Fileformatter test = new Fileformatter(plain_text_file);
+        FileFormatter convert_plain_text = new FileFormatter(plain_text_file);
+        convert_plain_text.add_pad();
+        String plain_text_string = convert_plain_text.toString();
 
-        test.add_pad();
+        FileFormatter convert_key = new FileFormatter(key_file);
+        String key_string = convert_key.toString();
+
+        BlockEncrypt testBlock = new BlockEncrypt(key_string, plain_text_string);
+        WriteOutputFile write_encrypted_block = new WriteOutputFile(output_file, testBlock.encrypt());
         
     }
 }
